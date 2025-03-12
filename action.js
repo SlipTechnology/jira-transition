@@ -26,7 +26,7 @@ module.exports = class {
     })
 
     if (!transitionToApply) {
-      console.log('Please specify transition name or transition id.')
+      console.log(`Please specify transition name or transition id. Selection:${argv.transition}`)
       console.log('Possible transitions:')
       transitions.forEach((t) => {
         console.log(`{ id: ${t.id}, name: ${t.name} } transitions issue to '${t.to.name}' status.`)
