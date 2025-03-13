@@ -122,7 +122,7 @@ class Jira {
     }, {
       method: 'POST',
       body: {
-        fields:['id'],
+        fields:['key'],
         jql,
       },
     })
