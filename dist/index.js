@@ -32537,6 +32537,7 @@ async function exec () {
 function parseArgs () {
   const transition = core.getInput('transition')
   const transitionId = core.getInput('transitionId')
+  const jql = core.getInput('jql')
 
   if (!transition && !transitionId) {
     // Either transition _or_ transitionId _must_ be provided
@@ -32547,6 +32548,7 @@ function parseArgs () {
     issue: core.getInput('issue'),
     transition,
     transitionId,
+    jql
   }
 }
 
