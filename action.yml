@@ -6,7 +6,7 @@ branding:
 inputs:
   issue:
     description: Key of the issue to be transitioned
-    required: true
+    required: false
   transition:
     description: The transition to apply to the issue, e.g. 'In Progress'
     required: false

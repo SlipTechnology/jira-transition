@@ -37,6 +37,11 @@ function parseArgs () {
   const transition = core.getInput('transition')
   const transitionId = core.getInput('transitionId')
   const jql = core.getInput('jql')
+  const issue = core.getInput('issue')
+
+  if(!issue && !jql){
+    throw new Error('Error: please specify either an issue or jql')
+  }
 
   if (!transition && !transitionId) {
     // Either transition _or_ transitionId _must_ be provided
@@ -44,7 +49,7 @@ function parseArgs () {
   }
 
   return {
-    issue: core.getInput('issue'),
+    issue,
     transition,
     transitionId,
     jql
