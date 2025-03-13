@@ -18,6 +18,17 @@ module.exports = class {
     const { argv } = this
 
     const issueId = argv.issue
+    const jql = argv.jql
+    if(jql){
+      const issues = await this.Jira.executeJql(jql)
+      console.log(issues);
+    } else {
+      await this.transitionIssue(issueId, argv);
+    }
+    return {}
+  }
+
+  async transitionIssue(issueId, argv){
     const { transitions } = await this.Jira.getIssueTransitions(issueId)
 
     const transitionToApply = _.find(transitions, (t) => {
@@ -45,7 +56,6 @@ module.exports = class {
 
     const transitionedIssue = await this.Jira.getIssue(issueId)
 
-    // console.log(`transitionedIssue:${JSON.stringify(transitionedIssue, null, 4)}`)
     console.log(`Changed ${issueId} status to : ${_.get(transitionedIssue, 'fields.status.name')} .`)
     console.log(`Link to issue: ${this.config.baseUrl}/browse/${issueId}`)
 

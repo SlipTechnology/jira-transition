@@ -39,6 +39,18 @@ class Jira {
     })
   }
 
+  async executeJql (jql) {
+    return this.fetch('executeJql', {
+      pathname: '/rest/api/2/search/jql',
+    }, {
+      method: 'POST',
+      body: {
+        fields:['id'],
+        jql,
+      },
+    })
+  }
+
   async transitionIssue (issueId, data) {
     return this.fetch('transitionIssue', {
       pathname: `/rest/api/2/issue/${issueId}/transitions`,
@@ -94,11 +106,11 @@ class Jira {
 
       delete state.req.headers
 
-      throw Object.assign(
-        new Error('Jira API error'),
-        state,
-        fields
-      )
+      // throw Object.assign(
+      //   new Error('Jira API error'),
+      //   state,
+      //   fields
+      // )
     }
 
     return state.res.body

@@ -24,6 +24,17 @@ module.exports = class {
     const { argv } = this
 
     const issueId = argv.issue
+    const jql = argv.jql
+    if(jql){
+      const issues = await this.Jira.executeJql(jql)
+      console.log(issues);
+    } else {
+      await this.transitionIssue(issueId, argv);
+    }
+    return {}
+  }
+
+  async transitionIssue(issueId, argv){
     const { transitions } = await this.Jira.getIssueTransitions(issueId)
 
     const transitionToApply = _.find(transitions, (t) => {
@@ -51,7 +62,6 @@ module.exports = class {
 
     const transitionedIssue = await this.Jira.getIssue(issueId)
 
-    // console.log(`transitionedIssue:${JSON.stringify(transitionedIssue, null, 4)}`)
     console.log(`Changed ${issueId} status to : ${_.get(transitionedIssue, 'fields.status.name')} .`)
     console.log(`Link to issue: ${this.config.baseUrl}/browse/${issueId}`)
 
@@ -103,6 +113,18 @@ class Jira {
       pathname: `/rest/api/2/issue/${issueId}/transitions`,
     }, {
       method: 'GET',
+    })
+  }
+
+  async executeJql (jql) {
+    return this.fetch('executeJql', {
+      pathname: '/rest/api/2/search/jql',
+    }, {
+      method: 'POST',
+      body: {
+        fields:['id'],
+        jql,
+      },
     })
   }
 
@@ -161,11 +183,11 @@ class Jira {
 
       delete state.req.headers
 
-      throw Object.assign(
-        new Error('Jira API error'),
-        state,
-        fields
-      )
+      // throw Object.assign(
+      //   new Error('Jira API error'),
+      //   state,
+      //   fields
+      // )
     }
 
     return state.res.body
