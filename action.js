@@ -21,7 +21,9 @@ module.exports = class {
     const jql = argv.jql
     if(jql){
       const issues = await this.Jira.executeJql(jql)
-      console.log(issues);
+      for(const issue of issues.issues){
+        await this.transitionIssue(issue.key, argv);
+      }
     } else {
       await this.transitionIssue(issueId, argv);
     }
