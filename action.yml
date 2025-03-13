@@ -13,6 +13,9 @@ inputs:
   transitionId:
     description: The id of a transition to apply to the issue
     required: false
+  jql: 
+    description: JQL to find the issue to transition
+    required: false
 runs:
   using: 'node16'
   main: './dist/index.js'
